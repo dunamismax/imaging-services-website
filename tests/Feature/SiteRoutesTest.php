@@ -42,3 +42,10 @@ it('serves public company pages and posts', function (string $path) {
     '/reducing-radiation-exposure-how-modern-digital-x-ray-systems-are-making-imaging-safer',
     '/the-economics-of-digital-x-ray-is-it-actually-saving-you-money',
 ]);
+
+it('includes the theme bootstrap script on the app shell', function () {
+    $this->get('/')
+        ->assertSuccessful()
+        ->assertSee("const themeStorageKey = 'site-theme';", false)
+        ->assertSee("root.classList.toggle('dark', shouldUseDark);", false);
+});

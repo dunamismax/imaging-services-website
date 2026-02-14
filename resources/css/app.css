@@ -1,5 +1,6 @@
 @import url('https://fonts.bunny.net/css2?family=Barlow:wght@400;500;600;700;800&family=Sora:wght@400;500;600;700&display=swap');
 @import 'tailwindcss';
+@custom-variant dark (&:where(.dark, .dark *));
 
 @source '../views';
 @source '../js';
@@ -17,15 +18,42 @@
     --brand-ink: #14363e;
     --brand-muted: #3c5d64;
     --brand-warm: #f59e0b;
+    --site-text-primary: #14363e;
+    --site-text-secondary: #3c5d64;
+    --site-surface: rgba(255, 255, 255, 0.88);
+    --site-surface-strong: #ffffff;
+    --site-panel: #ffffff;
+    --site-border: rgba(20, 54, 62, 0.1);
+    --site-border-strong: rgba(20, 54, 62, 0.2);
+    --site-header-bg: color-mix(in srgb, #ffffff 86%, var(--brand-soft));
+    color-scheme: light;
+}
+
+:root.dark {
+    --brand-deep: #0b2b34;
+    --brand-accent: #49d8ef;
+    --brand-soft: #d8eef3;
+    --brand-ink: #d7edf2;
+    --brand-muted: #9ab8bf;
+    --site-text-primary: #d7edf2;
+    --site-text-secondary: #9ab8bf;
+    --site-surface: rgba(12, 26, 32, 0.84);
+    --site-surface-strong: rgba(11, 29, 36, 0.94);
+    --site-panel: rgba(15, 36, 44, 0.88);
+    --site-border: rgba(130, 175, 186, 0.2);
+    --site-border-strong: rgba(145, 191, 202, 0.38);
+    --site-header-bg: color-mix(in srgb, #08141a 82%, #12303b);
+    color-scheme: dark;
 }
 
 body.site-body {
-    color: var(--brand-ink);
+    color: var(--site-text-primary);
     background:
-        radial-gradient(1200px circle at 6% -10%, #9fd8e3 0%, transparent 38%),
-        radial-gradient(1000px circle at 96% 0%, #fef1d7 0%, transparent 42%),
-        linear-gradient(180deg, #ffffff 0%, #f8fcfd 100%);
+        radial-gradient(1200px circle at 6% -10%, color-mix(in srgb, var(--brand-accent) 40%, transparent) 0%, transparent 40%),
+        radial-gradient(1000px circle at 96% 0%, color-mix(in srgb, var(--brand-warm) 32%, transparent) 0%, transparent 42%),
+        linear-gradient(180deg, color-mix(in srgb, var(--site-surface-strong) 70%, #ffffff) 0%, color-mix(in srgb, var(--site-surface) 86%, #eef7f9) 100%);
     min-height: 100vh;
+    transition: background 240ms ease, color 180ms ease;
 }
 
 .site-grid-bg {
@@ -33,14 +61,20 @@ body.site-body {
     inset: 0;
     pointer-events: none;
     z-index: -1;
-    opacity: 0.25;
-    background-image: linear-gradient(to right, rgba(10, 140, 163, 0.07) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(10, 140, 163, 0.07) 1px, transparent 1px);
+    opacity: 0.2;
+    background-image: linear-gradient(to right, color-mix(in srgb, var(--brand-accent) 15%, transparent) 1px, transparent 1px),
+        linear-gradient(to bottom, color-mix(in srgb, var(--brand-accent) 15%, transparent) 1px, transparent 1px);
     background-size: 34px 34px;
+    transition: opacity 200ms ease;
+}
+
+:root.dark .site-grid-bg {
+    opacity: 0.3;
 }
 
 .site-header {
-    background: color-mix(in srgb, #ffffff 86%, var(--brand-soft));
+    background: var(--site-header-bg);
+    box-shadow: 0 14px 30px color-mix(in srgb, #071319 8%, transparent);
 }
 
 .font-display {
@@ -70,22 +104,26 @@ body.site-body {
 }
 
 .btn-secondary {
-    border: 1px solid color-mix(in srgb, var(--brand-accent) 30%, #fff);
-    color: var(--brand-deep);
+    border: 1px solid color-mix(in srgb, var(--brand-accent) 34%, var(--site-border));
+    color: var(--site-text-primary);
     padding: 0.58rem 1.1rem;
-    background: #fff;
+    background: var(--site-surface-strong);
 }
 
 .btn-secondary:hover {
     border-color: var(--brand-accent);
-    background: var(--brand-soft);
+    background: color-mix(in srgb, var(--brand-soft) 70%, var(--site-surface-strong));
 }
 
 .surface-card {
-    border: 1px solid rgba(20, 54, 62, 0.08);
+    border: 1px solid var(--site-border);
     border-radius: 1.2rem;
-    background: rgba(255, 255, 255, 0.88);
-    box-shadow: 0 15px 35px rgba(16, 63, 74, 0.08);
+    background: var(--site-surface);
+    box-shadow: 0 15px 35px color-mix(in srgb, #062028 15%, transparent);
+}
+
+.surface-card:hover {
+    border-color: var(--site-border-strong);
 }
 
 .reveal-up {
@@ -107,7 +145,7 @@ body.site-body {
     display: inline-flex;
     align-items: center;
     border-radius: 999px;
-    background: var(--brand-soft);
+    background: color-mix(in srgb, var(--brand-soft) 84%, transparent);
     color: var(--brand-accent);
     font-size: 0.72rem;
     font-weight: 700;
@@ -117,7 +155,7 @@ body.site-body {
 }
 
 .text-brand-deep {
-    color: var(--brand-deep);
+    color: var(--site-text-primary);
 }
 
 .text-brand-accent {
@@ -125,7 +163,7 @@ body.site-body {
 }
 
 .text-brand-muted {
-    color: var(--brand-muted);
+    color: var(--site-text-secondary);
 }
 
 .text-brand-soft {
@@ -133,23 +171,27 @@ body.site-body {
 }
 
 .border-brand-ink\/10 {
-    border-color: color-mix(in srgb, var(--brand-ink) 10%, transparent);
+    border-color: var(--site-border);
 }
 
 .border-brand-ink\/20 {
-    border-color: color-mix(in srgb, var(--brand-ink) 20%, transparent);
+    border-color: var(--site-border-strong);
 }
 
 .bg-brand-soft {
-    background-color: var(--brand-soft);
+    background-color: color-mix(in srgb, var(--brand-soft) 88%, var(--site-surface-strong));
 }
 
 .bg-brand-deep {
     background-color: var(--brand-deep);
 }
 
+.bg-site-panel {
+    background-color: var(--site-panel);
+}
+
 .hover\:bg-brand-soft:hover {
-    background-color: var(--brand-soft);
+    background-color: color-mix(in srgb, var(--brand-soft) 88%, var(--site-panel));
 }
 
 .hover\:text-brand-deep:hover {
@@ -163,8 +205,9 @@ body.site-body {
 .form-field {
     width: 100%;
     border-radius: 0.85rem;
-    border: 1px solid rgba(20, 54, 62, 0.18);
-    background: #fff;
+    border: 1px solid var(--site-border-strong);
+    background: var(--site-panel);
+    color: var(--site-text-primary);
     padding: 0.65rem 0.8rem;
     font-size: 0.95rem;
 }
@@ -181,6 +224,68 @@ body.site-body {
     font-weight: 700;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    color: var(--brand-muted);
+    color: var(--site-text-secondary);
     margin-bottom: 0.4rem;
+}
+
+.theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    border-radius: 999px;
+    border: 1px solid var(--site-border-strong);
+    background: var(--site-surface-strong);
+    color: var(--site-text-primary);
+    padding: 0.4rem 0.7rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: all 180ms ease;
+}
+
+.theme-toggle:hover {
+    border-color: color-mix(in srgb, var(--brand-accent) 60%, var(--site-border-strong));
+    background: color-mix(in srgb, var(--brand-soft) 72%, var(--site-surface-strong));
+}
+
+.theme-toggle-switch {
+    position: relative;
+    display: inline-flex;
+    height: 1.2rem;
+    width: 2.2rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--brand-accent) 28%, var(--site-border));
+}
+
+.theme-toggle-thumb {
+    position: absolute;
+    top: 0.15rem;
+    left: 0.15rem;
+    height: 0.9rem;
+    width: 0.9rem;
+    border-radius: 999px;
+    background: var(--site-surface-strong);
+    box-shadow: 0 2px 7px color-mix(in srgb, #000 16%, transparent);
+    transition: transform 180ms ease;
+}
+
+.text-brand-soft\/85 {
+    color: color-mix(in srgb, var(--brand-soft) 85%, transparent);
+}
+
+:root.dark .brand-pill {
+    background: color-mix(in srgb, var(--brand-accent) 20%, var(--site-surface-strong));
+}
+
+:root.dark .bg-brand-soft {
+    background-color: color-mix(in srgb, var(--brand-accent) 20%, var(--site-surface-strong));
+}
+
+:root.dark .hover\:bg-brand-soft:hover {
+    background-color: color-mix(in srgb, var(--brand-accent) 26%, var(--site-panel));
+}
+
+:root.dark .bg-white {
+    background-color: var(--site-panel);
 }

@@ -1,9 +1,11 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { Link, usePage } from '@inertiajs/vue3';
 
+const themeStorageKey = 'site-theme';
 const page = usePage();
 const mobileMenuOpen = ref(false);
+const isDarkTheme = ref(false);
 
 const site = computed(() => page.props.site || {});
 const routing = computed(() => page.props.routing || {});
@@ -12,6 +14,12 @@ const navigation = computed(() => site.value.navigation || []);
 const quickLinks = computed(() => site.value.quickLinks || []);
 const urls = computed(() => site.value.urls || {});
 const logoUrl = '/site-assets/images/home/logo.svg';
+const themeLabel = computed(() => (isDarkTheme.value ? 'Dark' : 'Light'));
+const currentYear = computed(() => new Date().getFullYear());
+
+onMounted(() => {
+    isDarkTheme.value = document.documentElement.classList.contains('dark');
+});
 
 function isActive(routeName) {
     const currentRoute = routing.value.currentRoute;
@@ -24,12 +32,25 @@ function isActive(routeName) {
 function closeMobileMenu() {
     mobileMenuOpen.value = false;
 }
+
+function applyTheme(isDark) {
+    document.documentElement.classList.toggle('dark', isDark);
+    isDarkTheme.value = isDark;
+
+    try {
+        window.localStorage.setItem(themeStorageKey, isDark ? 'dark' : 'light');
+    } catch {}
+}
+
+function toggleTheme() {
+    applyTheme(!isDarkTheme.value);
+}
 </script>
 
 <template>
     <div class="min-h-screen">
         <header class="site-header sticky top-0 z-40 border-b border-brand-ink/10 backdrop-blur-sm">
-            <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 lg:px-8">
+            <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 lg:px-8">
                 <Link :href="navigation[0]?.url || '/'" class="flex items-center gap-3" @click="closeMobileMenu">
                     <img :src="logoUrl" alt="Imaging Services logo" class="h-10 w-auto">
                     <div>
@@ -38,7 +59,7 @@ function closeMobileMenu() {
                     </div>
                 </Link>
 
-                <nav class="hidden items-center gap-2 lg:flex" aria-label="Primary">
+                <nav class="hidden items-center gap-1 lg:flex" aria-label="Primary">
                     <Link
                         v-for="item in navigation"
                         :key="item.routeName"
@@ -50,7 +71,19 @@ function closeMobileMenu() {
                     </Link>
                 </nav>
 
-                <div class="hidden items-center gap-3 lg:flex">
+                <div class="hidden items-center gap-2 lg:flex">
+                    <button
+                        type="button"
+                        class="theme-toggle"
+                        :aria-pressed="isDarkTheme"
+                        :aria-label="`Switch to ${isDarkTheme ? 'light' : 'dark'} theme`"
+                        @click="toggleTheme"
+                    >
+                        {{ themeLabel }}
+                        <span class="theme-toggle-switch" aria-hidden="true">
+                            <span class="theme-toggle-thumb" :class="isDarkTheme ? 'translate-x-4' : ''"></span>
+                        </span>
+                    </button>
                     <a :href="urls.tollFreeDial" class="btn-secondary">{{ urls.tollFreePhone }}</a>
                     <Link :href="urls.payments" class="btn-primary">Payments</Link>
                 </div>
@@ -66,6 +99,18 @@ function closeMobileMenu() {
 
             <div v-if="mobileMenuOpen" class="border-t border-brand-ink/10 bg-white p-4 lg:hidden">
                 <div class="mx-auto flex max-w-7xl flex-col gap-2">
+                    <button
+                        type="button"
+                        class="theme-toggle self-start"
+                        :aria-pressed="isDarkTheme"
+                        :aria-label="`Switch to ${isDarkTheme ? 'light' : 'dark'} theme`"
+                        @click="toggleTheme"
+                    >
+                        {{ themeLabel }}
+                        <span class="theme-toggle-switch" aria-hidden="true">
+                            <span class="theme-toggle-thumb" :class="isDarkTheme ? 'translate-x-4' : ''"></span>
+                        </span>
+                    </button>
                     <Link
                         v-for="item in navigation"
                         :key="`mobile-${item.routeName}`"
@@ -106,11 +151,17 @@ function closeMobileMenu() {
                             v-for="link in quickLinks"
                             :key="link.label"
                             :href="link.url"
-                            class="rounded-full border border-brand-soft/30 px-3 py-1.5 hover:bg-brand-soft hover:text-brand-deep"
+                            class="rounded-full border border-brand-soft/30 px-3 py-1.5 transition hover:bg-brand-soft hover:text-brand-deep"
                         >
                             {{ link.label }}
                         </Link>
                     </div>
+                </div>
+            </div>
+            <div class="border-t border-brand-soft/20">
+                <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-4 text-xs text-brand-soft/85 lg:px-8">
+                    <p>&copy; {{ currentYear }} {{ company.legal_name || company.name }}. All rights reserved.</p>
+                    <Link :href="urls.privacy" class="hover:text-white">Privacy Policy</Link>
                 </div>
             </div>
         </footer>

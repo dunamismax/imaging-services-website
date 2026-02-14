@@ -26,7 +26,7 @@ const urls = computed(() => page.props.site?.urls || {});
 
         <section class="mx-auto mt-10 max-w-5xl px-4 lg:px-8">
             <p class="brand-pill">Payments</p>
-            <h1 class="mt-4 font-display text-4xl font-semibold text-brand-deep md:text-5xl">Payment instructions for deposits, checks, and transfers</h1>
+            <h1 class="mt-4 font-display text-4xl font-semibold text-brand-deep md:text-5xl">Send deposits and checks to Imaging Services</h1>
 
             <div class="mt-8 grid gap-5 md:grid-cols-2">
                 <article class="surface-card p-6">

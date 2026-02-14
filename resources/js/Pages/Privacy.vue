@@ -25,7 +25,7 @@ const company = computed(() => page.props.site?.company || {});
 
         <section class="mx-auto mt-10 max-w-5xl px-4 lg:px-8">
             <p class="brand-pill">Privacy Policy and Terms</p>
-            <h1 class="mt-4 font-display text-4xl font-semibold text-brand-deep md:text-5xl">Privacy and terms of service</h1>
+            <h1 class="mt-4 font-display text-4xl font-semibold text-brand-deep md:text-5xl">Privacy Policy and Terms of Use</h1>
             <p class="mt-2 text-sm uppercase tracking-[0.12em] text-brand-accent">Effective Date: {{ privacy.effective_date }}</p>
 
             <article class="surface-card mt-6 p-6">

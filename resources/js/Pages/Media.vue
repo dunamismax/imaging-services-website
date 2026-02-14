@@ -27,8 +27,8 @@ const orderedPosts = computed(() => Object.entries(props.posts).map(([slug, post
 
         <section class="mx-auto mt-10 max-w-7xl px-4 lg:px-8">
             <p class="brand-pill">Media</p>
-            <h1 class="mt-4 font-display text-4xl font-semibold text-brand-deep md:text-5xl">Updates, interviews, and imaging insights</h1>
-            <p class="mt-4 max-w-3xl text-lg text-brand-muted">Browse archived and recent media content from the Imaging Services team.</p>
+            <h1 class="mt-4 font-display text-4xl font-semibold text-brand-deep md:text-5xl">Digital imaging latest news and insights</h1>
+            <p class="mt-4 max-w-3xl text-lg text-brand-muted">Browse archived and current media content from Imaging Services.</p>
         </section>
 
         <section class="mx-auto mt-10 max-w-7xl px-4 pb-4 lg:px-8">

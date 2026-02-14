@@ -30,9 +30,14 @@ const site = computed(() => page.props.site || {});
 const company = computed(() => site.value.company || {});
 const hours = computed(() => site.value.hours || []);
 const forms = computed(() => site.value.forms || {});
+const supportContacts = computed(() => props.contact.support_contacts || []);
 
 function dial(phoneNumber) {
     return `tel:${String(phoneNumber).replace(/[^\d+]/g, '')}`;
+}
+
+function email(emailAddress) {
+    return `mailto:${emailAddress}`;
 }
 </script>
 
@@ -69,10 +74,24 @@ function dial(phoneNumber) {
                         </a>
                     </div>
 
+                    <h3 class="mt-6 font-display text-xl font-semibold text-brand-deep">Contact Team</h3>
+                    <div class="mt-3 grid gap-3 sm:grid-cols-2">
+                        <article
+                            v-for="person in supportContacts"
+                            :key="person.email"
+                            class="rounded-xl border border-brand-ink/10 bg-white px-4 py-3"
+                        >
+                            <p class="text-sm font-semibold text-brand-deep">{{ person.name }}</p>
+                            <p class="text-xs uppercase tracking-[0.12em] text-brand-accent">{{ person.role }}</p>
+                            <a :href="email(person.email)" class="mt-2 block text-sm text-brand-muted hover:text-brand-deep">{{ person.email }}</a>
+                            <a v-if="person.phone" :href="dial(person.phone)" class="mt-1 block text-sm text-brand-muted hover:text-brand-deep">{{ person.phone }}</a>
+                        </article>
+                    </div>
+
                     <div class="mt-5 rounded-xl border border-brand-ink/10 bg-brand-soft p-4 text-sm text-brand-muted">
                         <p>Toll Free: {{ company.phone_toll_free }}</p>
                         <p class="mt-1">Email Orders: {{ company.email_orders }}</p>
-                        <p class="mt-1">Working Hours: Mon-Fri 8:30 am - 5:00 pm</p>
+                        <p class="mt-1">Working Hours: Mon-Fri 8:30 am - 5 pm</p>
                     </div>
                 </article>
 

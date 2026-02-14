@@ -145,7 +145,7 @@ class SitePageController extends Controller
             [
                 'posts' => $posts,
             ],
-            'Media | Imaging Services',
+            'Digital Imaging | Latest News and Insights from Imaging Services USA',
             'Browse interviews, operational insights, and digital imaging articles from Imaging Services.'
         );
     }

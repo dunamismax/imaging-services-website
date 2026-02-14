@@ -26,7 +26,7 @@ const partners = computed(() => page.props.site?.partners || []);
 
         <section class="mx-auto mt-10 max-w-7xl px-4 lg:px-8">
             <p class="brand-pill">Equipment</p>
-            <h1 class="mt-4 font-display text-4xl font-semibold text-brand-deep md:text-5xl">Systems for chiropractic, podiatry, veterinary, mobile, and orthopedic workflows</h1>
+            <h1 class="mt-4 font-display text-4xl font-semibold text-brand-deep md:text-5xl">Imaging systems for chiropractic, podiatry, veterinary, mobile, and orthopedic workflows</h1>
             <div class="mt-5 grid gap-3">
                 <p v-for="line in equipment.intro" :key="line" class="text-base text-brand-muted">{{ line }}</p>
             </div>

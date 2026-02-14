@@ -26,7 +26,7 @@ const forms = computed(() => page.props.site?.forms || {});
 
         <section class="mx-auto mt-10 max-w-7xl px-4 lg:px-8">
             <p class="brand-pill">Services and Training</p>
-            <h1 class="mt-4 font-display text-4xl font-semibold text-brand-deep md:text-5xl">On-site and remote support to keep your systems operational</h1>
+            <h1 class="mt-4 font-display text-4xl font-semibold text-brand-deep md:text-5xl">Call. We'll be there in an instant.</h1>
             <p class="mt-4 max-w-3xl text-lg text-brand-muted">{{ services.intro }}</p>
         </section>
 

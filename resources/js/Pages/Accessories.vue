@@ -27,7 +27,7 @@ const urls = computed(() => page.props.site?.urls || {});
 
         <section class="mx-auto mt-10 max-w-7xl px-4 lg:px-8">
             <p class="brand-pill">Accessories</p>
-            <h1 class="mt-4 font-display text-4xl font-semibold text-brand-deep md:text-5xl">Complete your imaging order with practical accessories</h1>
+            <h1 class="mt-4 font-display text-4xl font-semibold text-brand-deep md:text-5xl">View and select from our accessories catalog</h1>
             <p class="mt-4 max-w-3xl text-lg text-brand-muted">{{ accessories.summary }}</p>
         </section>
 

@@ -24,15 +24,15 @@ const sections = computed(() => (Array.isArray(props.post.sections) ? props.post
     <SiteLayout>
         <PageMeta :meta="meta" />
 
-        <section class="mx-auto mt-10 max-w-4xl px-4 lg:px-8">
+        <section class="page-shell page-shell-narrow page-section">
             <Link :href="post.backUrl" class="text-sm font-semibold text-brand-accent hover:text-brand-deep">&larr; Back to Media</Link>
 
             <article class="surface-card mt-4 p-6 md:p-8">
                 <p class="brand-pill">{{ post.published }}</p>
-                <h1 class="mt-4 font-display text-4xl font-semibold text-brand-deep md:text-5xl">{{ post.title }}</h1>
-                <p class="mt-4 text-lg text-brand-muted">{{ post.summary }}</p>
+                <h1 class="mt-4 page-title text-brand-deep">{{ post.title }}</h1>
+                <p class="mt-4 page-lead">{{ post.summary }}</p>
 
-                <div class="mt-6 space-y-4 text-base leading-relaxed text-brand-muted">
+                <div class="mt-6 space-y-4 reading-body">
                     <p v-for="paragraph in post.content" :key="paragraph">{{ paragraph }}</p>
                 </div>
 
@@ -40,10 +40,10 @@ const sections = computed(() => (Array.isArray(props.post.sections) ? props.post
                     <section
                         v-for="(section, index) in sections"
                         :key="`${section.title}-${index}`"
-                        class="rounded-2xl border border-brand-ink/10 bg-white px-4 py-5 md:px-5"
+                        class="rounded-2xl border border-brand-ink/10 bg-site-panel px-4 py-5 md:px-5"
                     >
-                        <h2 class="font-display text-2xl font-semibold text-brand-deep">{{ section.title }}</h2>
-                        <div v-if="section.paragraphs?.length" class="mt-3 space-y-3 text-base leading-relaxed text-brand-muted">
+                        <h2 class="card-title text-brand-deep">{{ section.title }}</h2>
+                        <div v-if="section.paragraphs?.length" class="mt-3 space-y-3 reading-body">
                             <p v-for="paragraph in section.paragraphs" :key="paragraph">{{ paragraph }}</p>
                         </div>
                         <ul v-if="section.bullets?.length" class="mt-4 space-y-2">

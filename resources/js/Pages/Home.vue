@@ -41,12 +41,12 @@ const statCards = computed(() => [
     <SiteLayout>
         <PageMeta :meta="meta" />
 
-        <section class="mx-auto mt-10 grid max-w-7xl gap-8 px-4 lg:grid-cols-12 lg:px-8">
+        <section class="page-shell page-shell-wide page-section grid gap-8 lg:grid-cols-12">
             <div class="reveal-up lg:col-span-7">
                 <p class="brand-pill">Imaging Services USA</p>
-                <h1 class="mt-4 font-display text-4xl font-semibold leading-tight text-brand-deep md:text-5xl">{{ home.hero.headline }}</h1>
-                <p class="mt-4 max-w-2xl text-lg text-brand-muted">{{ home.hero.subheadline }}</p>
-                <p class="mt-3 max-w-2xl text-base text-brand-muted">{{ home.hero.summary }}</p>
+                <h1 class="mt-4 page-title text-brand-deep">{{ home.hero.headline }}</h1>
+                <p class="mt-4 max-w-2xl page-lead">{{ home.hero.subheadline }}</p>
+                <p class="mt-3 max-w-2xl page-body">{{ home.hero.summary }}</p>
 
                 <div class="mt-8 flex flex-wrap gap-3">
                     <Link :href="home.hero.primary_cta.url" class="btn-primary">{{ home.hero.primary_cta.label }}</Link>
@@ -55,7 +55,7 @@ const statCards = computed(() => [
 
                 <div class="mt-8 grid gap-3 sm:grid-cols-3">
                     <article v-for="stat in statCards" :key="stat.label" class="surface-card bg-site-panel p-4">
-                        <p class="font-display text-2xl font-semibold text-brand-deep">{{ stat.value }}</p>
+                        <p class="card-title text-brand-deep">{{ stat.value }}</p>
                         <p class="mt-1 text-xs uppercase tracking-[0.12em] text-brand-muted">{{ stat.label }}</p>
                     </article>
                 </div>
@@ -71,7 +71,7 @@ const statCards = computed(() => [
                 </div>
 
                 <aside class="surface-card mt-5 p-5">
-                    <h2 class="font-display text-xl font-semibold text-brand-deep">Typical Working Hours</h2>
+                    <h2 class="card-title text-brand-deep">Typical Working Hours</h2>
                     <dl class="mt-4 space-y-2 text-sm">
                         <div v-for="slot in hours" :key="slot.day" class="flex items-center justify-between border-b border-brand-ink/10 pb-2">
                             <dt class="font-semibold uppercase tracking-wide text-brand-muted">{{ slot.day }}</dt>
@@ -84,28 +84,28 @@ const statCards = computed(() => [
             </div>
         </section>
 
-        <section class="mx-auto mt-12 max-w-7xl px-4 lg:px-8">
+        <section class="page-shell page-shell-wide page-section-loose">
             <div class="surface-card p-6 md:p-8">
                 <div class="mb-4 flex flex-wrap items-end justify-between gap-3">
                     <div>
                         <p class="brand-pill">Our Main Advantages</p>
-                        <h2 class="mt-3 font-display text-3xl font-semibold text-brand-deep">A practical partner for your imaging operations</h2>
+                        <h2 class="mt-3 section-title text-brand-deep">A practical partner for your imaging operations</h2>
                     </div>
                     <Link :href="site.urls.contact" class="btn-secondary">Talk to our team</Link>
                 </div>
                 <div class="mt-4 grid gap-4 md:grid-cols-2">
                     <article v-for="advantage in home.advantages" :key="advantage" class="rounded-2xl border border-brand-ink/10 bg-site-panel p-4">
-                        <p class="text-base text-brand-muted">{{ advantage }}</p>
+                        <p class="page-body">{{ advantage }}</p>
                     </article>
                 </div>
             </div>
         </section>
 
-        <section class="mx-auto mt-12 max-w-7xl px-4 lg:px-8">
+        <section class="page-shell page-shell-wide page-section-loose">
             <div class="mb-6 flex items-end justify-between gap-3">
                 <div>
                     <p class="brand-pill">Types of Equipment</p>
-                    <h2 class="mt-3 font-display text-3xl font-semibold text-brand-deep">Built for real clinical workflows</h2>
+                    <h2 class="mt-3 section-title text-brand-deep">Built for real clinical workflows</h2>
                 </div>
                 <Link :href="site.urls.equipment" class="btn-secondary">View All</Link>
             </div>
@@ -114,17 +114,17 @@ const statCards = computed(() => [
                     <img :src="category.image" :alt="category.title" class="h-56 w-full object-cover">
                     <div class="p-5">
                         <p class="text-sm font-semibold uppercase tracking-[0.14em] text-brand-accent">{{ category.subtitle }}</p>
-                        <h3 class="mt-2 font-display text-2xl font-semibold text-brand-deep">{{ category.title }}</h3>
+                        <h3 class="mt-2 card-title text-brand-deep">{{ category.title }}</h3>
                         <Link :href="category.url" class="mt-4 inline-flex text-sm font-semibold text-brand-accent hover:text-brand-deep">View details</Link>
                     </div>
                 </article>
             </div>
         </section>
 
-        <section class="mx-auto mt-12 max-w-7xl px-4 lg:px-8">
+        <section class="page-shell page-shell-wide page-section-loose">
             <div class="mb-6">
                 <p class="brand-pill">Word on the Street</p>
-                <h2 class="mt-3 font-display text-3xl font-semibold text-brand-deep">Customer feedback from the field</h2>
+                <h2 class="mt-3 section-title text-brand-deep">Customer feedback from the field</h2>
             </div>
             <div class="grid gap-5 lg:grid-cols-3">
                 <article v-for="item in home.testimonials" :key="item.author" class="surface-card p-5">
@@ -140,7 +140,7 @@ const statCards = computed(() => [
             </div>
         </section>
 
-        <section class="mx-auto mt-12 max-w-7xl px-4 pb-4 lg:px-8">
+        <section class="page-shell page-shell-wide page-section-loose pb-4">
             <PartnersGrid :partners="partners" />
         </section>
     </SiteLayout>

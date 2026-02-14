@@ -23,7 +23,7 @@ const urls = computed(() => page.props.site?.urls || {});
     <SiteLayout>
         <PageMeta :meta="meta" />
 
-        <section class="mx-auto mt-10 max-w-7xl px-4 lg:px-8">
+        <section class="page-shell page-shell-wide page-section">
             <Link :href="equipment.backUrl" class="text-sm font-semibold text-brand-accent hover:text-brand-deep">&larr; Back to Equipment</Link>
 
             <div class="mt-4 grid gap-6 lg:grid-cols-2">
@@ -33,12 +33,12 @@ const urls = computed(() => page.props.site?.urls || {});
 
                 <article class="surface-card p-6 md:p-8">
                     <p class="brand-pill">Equipment Detail</p>
-                    <h1 class="mt-3 font-display text-3xl font-semibold text-brand-deep md:text-4xl">{{ equipment.title }}</h1>
-                    <p class="mt-3 text-base text-brand-muted">{{ equipment.subtitle }}</p>
+                    <h1 class="mt-3 page-title-compact text-brand-deep">{{ equipment.title }}</h1>
+                    <p class="mt-3 page-body">{{ equipment.subtitle }}</p>
 
                     <ul class="mt-5 space-y-2">
-                        <li v-for="highlight in equipment.highlights" :key="highlight" class="rounded-xl border border-brand-ink/10 bg-white px-4 py-3 text-sm text-brand-muted">
-                            {{ highlight }}
+                        <li v-for="highlight in equipment.highlights" :key="highlight" class="rounded-xl border border-brand-ink/10 bg-site-panel px-4 py-3 text-sm text-brand-muted">
+                            <span class="text-brand-accent">•</span> {{ highlight }}
                         </li>
                     </ul>
 
@@ -46,9 +46,9 @@ const urls = computed(() => page.props.site?.urls || {});
                         <section
                             v-for="(section, index) in equipment.sections"
                             :key="`${section.title}-${index}`"
-                            class="rounded-2xl border border-brand-ink/10 bg-white px-4 py-4"
+                            class="rounded-2xl border border-brand-ink/10 bg-site-panel px-4 py-4"
                         >
-                            <h2 class="font-display text-xl font-semibold text-brand-deep">{{ section.title }}</h2>
+                            <h2 class="card-title text-brand-deep">{{ section.title }}</h2>
                             <div v-if="section.paragraphs?.length" class="mt-3 space-y-2 text-sm leading-relaxed text-brand-muted">
                                 <p v-for="paragraph in section.paragraphs" :key="paragraph">{{ paragraph }}</p>
                             </div>

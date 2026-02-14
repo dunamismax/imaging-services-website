@@ -152,7 +152,7 @@ async function submitForm() {
 <template>
     <div class="surface-card p-6">
         <p class="brand-pill">{{ pillLabel }}</p>
-        <h3 class="mt-2 font-display text-2xl font-semibold text-brand-deep">{{ headingLabel }}</h3>
+        <h3 class="mt-2 card-title text-brand-deep">{{ headingLabel }}</h3>
 
         <div v-if="submitted" class="mt-4 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
             {{ resolvedSuccessMessage }}
@@ -195,7 +195,7 @@ async function submitForm() {
                     <label
                         v-for="option in options"
                         :key="option"
-                        class="flex items-start gap-2 rounded-xl border border-brand-ink/10 bg-white px-3 py-2 text-sm text-brand-muted"
+                        class="flex items-start gap-2 rounded-xl border border-brand-ink/10 bg-site-panel px-3 py-2 text-sm text-brand-muted transition hover:border-brand-ink/20"
                     >
                         <input
                             v-model="form[optionsField]"

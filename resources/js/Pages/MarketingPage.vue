@@ -19,13 +19,13 @@ defineProps({
     <SiteLayout>
         <PageMeta :meta="meta" />
 
-        <section class="mx-auto mt-10 max-w-4xl px-4 lg:px-8">
+        <section class="page-shell page-shell-narrow page-section">
             <article class="surface-card p-6 md:p-8">
                 <p class="brand-pill">Imaging Services</p>
-                <h1 class="mt-4 font-display text-4xl font-semibold text-brand-deep md:text-5xl">{{ page.title }}</h1>
-                <p class="mt-4 text-lg text-brand-muted">{{ page.description }}</p>
+                <h1 class="mt-4 page-title text-brand-deep">{{ page.title }}</h1>
+                <p class="mt-4 page-lead">{{ page.description }}</p>
 
-                <div class="mt-6 space-y-4 text-base text-brand-muted">
+                <div class="mt-6 space-y-4 rounded-2xl border border-brand-ink/10 bg-site-panel p-4 reading-body">
                     <p v-for="paragraph in page.body" :key="paragraph">{{ paragraph }}</p>
                 </div>
 

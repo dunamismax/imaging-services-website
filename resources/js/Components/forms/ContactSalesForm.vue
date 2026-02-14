@@ -106,7 +106,7 @@ async function submitForm() {
         <div class="mb-6 flex items-center justify-between gap-3">
             <div>
                 <p class="brand-pill">Contact Sales</p>
-                <h3 class="mt-2 font-display text-2xl font-semibold text-brand-deep">Request more information</h3>
+                <h3 class="mt-2 card-title text-brand-deep">Request more information</h3>
             </div>
         </div>
 

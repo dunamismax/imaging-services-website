@@ -18,33 +18,45 @@ defineProps({
 
 const page = usePage();
 const partners = computed(() => page.props.site?.partners || []);
+const urls = computed(() => page.props.site?.urls || {});
 </script>
 
 <template>
     <SiteLayout>
         <PageMeta :meta="meta" />
 
-        <section class="mx-auto mt-10 max-w-7xl px-4 lg:px-8">
-            <p class="brand-pill">Equipment</p>
-            <h1 class="mt-4 font-display text-4xl font-semibold text-brand-deep md:text-5xl">Imaging systems for chiropractic, podiatry, veterinary, mobile, and orthopedic workflows</h1>
-            <div class="mt-5 grid gap-3">
-                <p v-for="line in equipment.intro" :key="line" class="text-base text-brand-muted">{{ line }}</p>
+        <section class="page-shell page-shell-wide page-section">
+            <div class="surface-card grid gap-6 p-6 md:p-8 lg:grid-cols-12">
+                <div class="lg:col-span-8">
+                    <p class="brand-pill">Equipment</p>
+                    <h1 class="mt-4 page-title text-brand-deep">Imaging systems for chiropractic, podiatry, veterinary, mobile, and orthopedic workflows</h1>
+                    <div class="mt-5 grid gap-3">
+                        <p v-for="line in equipment.intro" :key="line" class="page-body">{{ line }}</p>
+                    </div>
+                </div>
+                <aside class="lg:col-span-4">
+                    <div class="rounded-2xl border border-brand-ink/10 bg-site-panel p-5">
+                        <p class="text-xs font-semibold uppercase tracking-[0.14em] text-brand-accent">Need guidance?</p>
+                        <p class="mt-2 text-sm text-brand-muted">Our team helps you choose the right system for your room size, workflow, and budget.</p>
+                        <Link :href="urls.contact" class="btn-secondary mt-5 w-full">Talk to Equipment Sales</Link>
+                    </div>
+                </aside>
             </div>
         </section>
 
-        <section class="mx-auto mt-10 max-w-7xl px-4 lg:px-8">
+        <section class="page-shell page-shell-wide page-section">
             <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-                <article v-for="item in equipment.categories" :key="item.slug" class="surface-card overflow-hidden">
+                <article v-for="item in equipment.categories" :key="item.slug" class="surface-card group overflow-hidden">
                     <img :src="item.image" :alt="item.name" class="h-52 w-full object-cover">
-                    <div class="p-5">
-                        <h2 class="font-display text-2xl font-semibold text-brand-deep">{{ item.name }}</h2>
-                        <Link :href="item.url" class="mt-3 inline-flex text-sm font-semibold text-brand-accent hover:text-brand-deep">View product page</Link>
+                    <div class="bg-site-panel p-5">
+                        <h2 class="card-title text-brand-deep">{{ item.name }}</h2>
+                        <Link :href="item.url" class="mt-3 inline-flex text-sm font-semibold text-brand-accent transition group-hover:translate-x-0.5 hover:text-brand-deep">View product page</Link>
                     </div>
                 </article>
             </div>
         </section>
 
-        <section class="mx-auto mt-12 max-w-7xl px-4 pb-4 lg:px-8">
+        <section class="page-shell page-shell-wide page-section-loose pb-4">
             <PartnersGrid :partners="partners" />
         </section>
     </SiteLayout>

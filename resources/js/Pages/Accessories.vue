@@ -25,19 +25,30 @@ const urls = computed(() => page.props.site?.urls || {});
     <SiteLayout>
         <PageMeta :meta="meta" />
 
-        <section class="mx-auto mt-10 max-w-7xl px-4 lg:px-8">
-            <p class="brand-pill">Accessories</p>
-            <h1 class="mt-4 font-display text-4xl font-semibold text-brand-deep md:text-5xl">View and select from our accessories catalog</h1>
-            <p class="mt-4 max-w-3xl text-lg text-brand-muted">{{ accessories.summary }}</p>
+        <section class="page-shell page-shell-wide page-section">
+            <div class="surface-card grid gap-6 p-6 md:p-8 lg:grid-cols-12">
+                <div class="lg:col-span-8">
+                    <p class="brand-pill">Accessories</p>
+                    <h1 class="mt-4 page-title text-brand-deep">View and select from our accessories catalog</h1>
+                    <p class="mt-4 max-w-3xl page-lead">{{ accessories.summary }}</p>
+                </div>
+                <div class="lg:col-span-4">
+                    <div class="rounded-2xl border border-brand-ink/10 bg-site-panel p-5">
+                        <p class="text-xs font-semibold uppercase tracking-[0.14em] text-brand-accent">Ordering support</p>
+                        <p class="mt-2 text-sm text-brand-muted">Need help finding part numbers or lead times? We can help you place the right order quickly.</p>
+                        <Link :href="urls.contact" class="btn-secondary mt-5 w-full">Request assistance</Link>
+                    </div>
+                </div>
+            </div>
         </section>
 
-        <section class="mx-auto mt-8 max-w-7xl px-4 lg:px-8">
+        <section class="page-shell page-shell-wide page-section-tight">
             <div class="grid gap-6 lg:grid-cols-2">
                 <article class="surface-card p-6 md:p-8">
-                    <h2 class="font-display text-2xl font-semibold text-brand-deep">Ordering Process</h2>
+                    <h2 class="card-title text-brand-deep">Ordering Process</h2>
                     <ul class="mt-4 space-y-3">
-                        <li v-for="note in accessories.notes" :key="note" class="rounded-xl border border-brand-ink/10 bg-white px-4 py-3 text-sm text-brand-muted">
-                            {{ note }}
+                        <li v-for="(note, index) in accessories.notes" :key="note" class="rounded-xl border border-brand-ink/10 bg-site-panel px-4 py-3 text-sm text-brand-muted">
+                            <span class="mr-2 font-semibold text-brand-accent">{{ index + 1 }}.</span>{{ note }}
                         </li>
                     </ul>
 
@@ -47,13 +58,17 @@ const urls = computed(() => page.props.site?.urls || {});
                     </div>
                 </article>
 
-                <div class="surface-card overflow-hidden">
+                <div class="surface-card relative overflow-hidden">
                     <img :src="accessories.catalog_image" alt="Accessories catalog preview" class="h-full min-h-80 w-full object-cover">
+                    <div class="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/60 to-transparent p-5">
+                        <p class="text-xs uppercase tracking-[0.14em] text-white/80">Preview</p>
+                        <p class="mt-1 font-display text-lg text-white">Accessories Catalog</p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section class="mx-auto mt-12 max-w-7xl px-4 pb-4 lg:px-8">
+        <section class="page-shell page-shell-wide page-section-loose pb-4">
             <PartnersGrid :partners="partners" />
         </section>
     </SiteLayout>

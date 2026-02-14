@@ -2,87 +2,104 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class SitePageController extends Controller
 {
-    public function home(): View
+    public function home(): Response
     {
+        $home = config('site_content.home');
+
+        if (is_array($home)) {
+            if (isset($home['categories']) && is_array($home['categories'])) {
+                $home['categories'] = $this->appendEquipmentDetailUrls($home['categories']);
+            }
+
+            if (
+                isset($home['hero'])
+                && is_array($home['hero'])
+                && isset($home['hero']['primary_cta'], $home['hero']['secondary_cta'])
+                && is_array($home['hero']['primary_cta'])
+                && is_array($home['hero']['secondary_cta'])
+            ) {
+                $home['hero']['primary_cta'] = $this->appendRouteUrl($home['hero']['primary_cta']);
+                $home['hero']['secondary_cta'] = $this->appendRouteUrl($home['hero']['secondary_cta']);
+            }
+        }
+
         return $this->renderPage(
-            'pages.home',
+            'Home',
             [
-                'company' => config('site_content.company'),
-                'hours' => config('site_content.hours'),
-                'home' => config('site_content.home'),
-                'partners' => config('site_content.partners'),
+                'home' => $home,
             ],
             'Imaging Services | Digital X-Ray Equipment, Service, and Support',
             'Imaging Services provides digital X-ray equipment, accessories, service, training, and workflow support for clinics nationwide.'
         );
     }
 
-    public function about(): View
+    public function about(): Response
     {
         return $this->renderPage(
-            'pages.about',
+            'About',
             [
                 'about' => config('site_content.about'),
-                'partners' => config('site_content.partners'),
             ],
             'About Us | Imaging Services',
             'Meet the Imaging Services team supporting digital imaging operations, equipment lifecycle planning, and dependable technical service.'
         );
     }
 
-    public function equipment(): View
+    public function equipment(): Response
     {
+        $equipment = config('site_content.equipment');
+
+        if (is_array($equipment) && isset($equipment['categories']) && is_array($equipment['categories'])) {
+            $equipment['categories'] = $this->appendEquipmentDetailUrls($equipment['categories']);
+        }
+
         return $this->renderPage(
-            'pages.equipment',
+            'Equipment',
             [
-                'equipment' => config('site_content.equipment'),
-                'partners' => config('site_content.partners'),
+                'equipment' => $equipment,
             ],
             'Equipment | Imaging Services',
             'Explore chiropractic, podiatry, veterinary, mobile, and specialty digital X-ray equipment backed by Imaging Services support.'
         );
     }
 
-    public function services(): View
+    public function services(): Response
     {
         return $this->renderPage(
-            'pages.services',
+            'Services',
             [
                 'services' => config('site_content.services'),
-                'partners' => config('site_content.partners'),
             ],
             'Services and Training | Imaging Services',
             'Request setup, maintenance, repair, remote support, and equipment training from the Imaging Services technical team.'
         );
     }
 
-    public function accessories(): View
+    public function accessories(): Response
     {
         return $this->renderPage(
-            'pages.accessories',
+            'Accessories',
             [
                 'accessories' => config('site_content.accessories'),
-                'partners' => config('site_content.partners'),
             ],
             'Accessories | Imaging Services',
             'Browse imaging accessories catalogs, order workflows, and support details from Imaging Services.'
         );
     }
 
-    public function contact(): View
+    public function contact(): Response
     {
         $services = config('site_content.services');
 
         return $this->renderPage(
-            'pages.contact',
+            'Contact',
             [
                 'contact' => config('site_content.contact'),
-                'company' => config('site_content.company'),
-                'hours' => config('site_content.hours'),
                 'serviceOptions' => is_array($services) ? ($services['service_options'] ?? []) : [],
                 'trainingOptions' => is_array($services) ? ($services['training_options'] ?? []) : [],
             ],
@@ -91,45 +108,49 @@ class SitePageController extends Controller
         );
     }
 
-    public function payments(): View
+    public function payments(): Response
     {
         return $this->renderPage(
-            'pages.payments',
+            'Payments',
             [
                 'payments' => config('site_content.payments'),
-                'company' => config('site_content.company'),
             ],
             'Payments | Imaging Services',
             'Send checks, deposits, and payment confirmations to Imaging Services with secure support for bank transfer and credit cards.'
         );
     }
 
-    public function privacy(): View
+    public function privacy(): Response
     {
         return $this->renderPage(
-            'pages.privacy',
+            'Privacy',
             [
                 'privacy' => config('site_content.privacy'),
-                'company' => config('site_content.company'),
             ],
             'Privacy Policy and Terms | Imaging Services',
             'Review Imaging Services privacy policy details and website terms of service.'
         );
     }
 
-    public function media(): View
+    public function media(): Response
     {
+        $posts = config('site_content.blog_posts');
+
+        if (is_array($posts)) {
+            $posts = $this->appendBlogPostUrls($posts);
+        }
+
         return $this->renderPage(
-            'pages.media',
+            'Media',
             [
-                'posts' => config('site_content.blog_posts'),
+                'posts' => $posts,
             ],
             'Media | Imaging Services',
             'Browse interviews, operational insights, and digital imaging articles from Imaging Services.'
         );
     }
 
-    public function equipmentDetail(string $equipmentSlug): View
+    public function equipmentDetail(string $equipmentSlug): Response
     {
         $equipmentMap = config('site_content.equipment_details');
         abort_unless(is_array($equipmentMap) && isset($equipmentMap[$equipmentSlug]) && is_array($equipmentMap[$equipmentSlug]), 404);
@@ -137,9 +158,12 @@ class SitePageController extends Controller
         $equipment = $equipmentMap[$equipmentSlug];
 
         return $this->renderPage(
-            'pages.equipment-detail',
+            'EquipmentDetail',
             [
-                'equipment' => $equipment,
+                'equipment' => [
+                    ...$equipment,
+                    'backUrl' => route('equipment'),
+                ],
                 'equipmentSlug' => $equipmentSlug,
             ],
             $equipment['title'].' | Imaging Services',
@@ -147,7 +171,7 @@ class SitePageController extends Controller
         );
     }
 
-    public function blogPost(string $postSlug): View
+    public function blogPost(string $postSlug): Response
     {
         $postMap = config('site_content.blog_posts');
         abort_unless(is_array($postMap) && isset($postMap[$postSlug]) && is_array($postMap[$postSlug]), 404);
@@ -155,9 +179,12 @@ class SitePageController extends Controller
         $post = $postMap[$postSlug];
 
         return $this->renderPage(
-            'pages.blog-post',
+            'BlogPost',
             [
-                'post' => $post,
+                'post' => [
+                    ...$post,
+                    'backUrl' => route('media'),
+                ],
                 'postSlug' => $postSlug,
             ],
             $post['title'].' | Imaging Services Media',
@@ -165,17 +192,28 @@ class SitePageController extends Controller
         );
     }
 
-    public function marketingPage(string $pageSlug): View
+    public function marketingPage(string $pageSlug): Response
     {
         $pages = config('site_content.marketing_pages');
         abort_unless(is_array($pages) && isset($pages[$pageSlug]) && is_array($pages[$pageSlug]), 404);
 
         $page = $pages[$pageSlug];
 
+        $cta = $page['cta'] ?? null;
+        $ctaUrl = '#';
+
+        if (is_array($cta) && isset($cta['route']) && is_string($cta['route'])) {
+            $ctaUrl = route($cta['route']);
+        }
+
         return $this->renderPage(
-            'pages.marketing-page',
+            'MarketingPage',
             [
-                'page' => $page,
+                'page' => [
+                    ...$page,
+                    'ctaUrl' => $ctaUrl,
+                    'homeUrl' => route('home'),
+                ],
                 'pageSlug' => $pageSlug,
             ],
             $page['title'].' | Imaging Services',
@@ -186,12 +224,70 @@ class SitePageController extends Controller
     /**
      * @param  array<string,mixed>  $data
      */
-    private function renderPage(string $view, array $data, string $title, string $description): View
+    private function renderPage(string $component, array $data, string $title, string $description): Response
     {
-        return view($view, [
+        return Inertia::render($component, [
             ...$data,
-            'title' => $title,
-            'description' => $description,
+            'meta' => [
+                'title' => $title,
+                'description' => $description,
+            ],
         ]);
+    }
+
+    /**
+     * @param  array<int,array<string,mixed>>  $items
+     * @return array<int,array<string,mixed>>
+     */
+    private function appendEquipmentDetailUrls(array $items): array
+    {
+        return array_map(function (array $item): array {
+            $slug = $item['slug'] ?? null;
+
+            if (! is_string($slug)) {
+                return $item;
+            }
+
+            return [
+                ...$item,
+                'url' => route('equipment.detail', ['equipmentSlug' => $slug]),
+            ];
+        }, $items);
+    }
+
+    /**
+     * @param  array<string,array<string,mixed>>  $posts
+     * @return array<string,array<string,mixed>>
+     */
+    private function appendBlogPostUrls(array $posts): array
+    {
+        $mappedPosts = [];
+
+        foreach ($posts as $slug => $post) {
+            $mappedPosts[$slug] = [
+                ...$post,
+                'url' => route('blog.post', ['postSlug' => $slug]),
+            ];
+        }
+
+        return $mappedPosts;
+    }
+
+    /**
+     * @param  array<string,mixed>  $cta
+     * @return array<string,mixed>
+     */
+    private function appendRouteUrl(array $cta): array
+    {
+        $routeName = $cta['route'] ?? null;
+
+        if (! is_string($routeName)) {
+            return $cta;
+        }
+
+        return [
+            ...$cta,
+            'url' => route($routeName),
+        ];
     }
 }

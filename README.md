@@ -8,7 +8,7 @@
 
 # Imaging Services Website
 
-This repository contains the Laravel 12 rebuild of the Imaging Services USA website with Vue-powered public forms. It is designed for fast content updates, reliable form handling, and complete route coverage for the company’s public pages and media posts.
+This repository contains the Laravel 12 rebuild of the Imaging Services USA website using an Inertia + Vue SPA frontend. It is designed for fast content updates, reliable form handling, and complete route coverage for the company’s public pages and media posts.
 
 ## Trust Signals
 
@@ -48,7 +48,7 @@ Optional local seed data:
 
 ## Features
 
-- Controller + Blade routes for all public sitemap slugs (home, equipment, services, accessories, contact, payments, privacy, media, and marketing pages).
+- Inertia-driven routes for all public sitemap slugs (home, equipment, services, accessories, contact, payments, privacy, media, and marketing pages).
 - Dynamic equipment detail pages mapped by slug with dedicated highlights and brochure links where available.
 - Dynamic media/article pages mapped by slug from centralized content configuration.
 - Rebuilt sales, service, and training forms with server-side validation, success states, and per-IP submission throttling.
@@ -61,7 +61,7 @@ Optional local seed data:
 |---|---|---|
 | Backend | [PHP 8.4+](https://www.php.net/) | Application runtime |
 | Framework | [Laravel 12](https://laravel.com/docs/12.x) | Routing, middleware, app structure, testing utilities |
-| UI | [Vue 3](https://vuejs.org/) + Blade | Vue handles interactive forms; Blade renders public pages |
+| UI | [Inertia.js](https://inertiajs.com/) + [Vue 3](https://vuejs.org/) | SPA navigation and page rendering for all public routes |
 | Styling | [Tailwind CSS 4](https://tailwindcss.com/docs) | Utility-first styling and theme system |
 | Frontend Build | [Vite 7](https://vite.dev/guide/) | Asset compilation and dev server |
 | Data | SQLite | Local development/test database |
@@ -76,10 +76,10 @@ imaging-services-website/
 ├── app/Http/Controllers/FormSubmissionController.php # JSON form submission endpoints
 ├── app/Http/Requests/                  # Form requests for validation + throttling
 ├── config/site_content.php             # Central content map (routes, copy, metadata)
-├── resources/views/layouts/site.blade.php # Shared website layout shell
-├── resources/views/pages/              # Blade page templates
-├── resources/views/forms/              # Vue mount partials for public forms
-├── resources/js/forms/site-forms.js    # Vue form apps and submission logic
+├── resources/views/app.blade.php       # Inertia root view
+├── resources/js/Pages/                 # Inertia Vue page components
+├── resources/js/Layouts/               # Shared SPA layout shell
+├── resources/js/Components/            # Reusable Vue components, including forms
 ├── resources/css/app.css               # Tailwind + custom site theme styles
 ├── routes/web.php                      # Public route definitions and slug mappings
 ├── tests/Feature/                      # Route coverage + form behavior tests

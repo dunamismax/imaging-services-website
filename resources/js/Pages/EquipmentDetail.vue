@@ -42,6 +42,28 @@ const urls = computed(() => page.props.site?.urls || {});
                         </li>
                     </ul>
 
+                    <div v-if="equipment.sections?.length" class="mt-7 space-y-5">
+                        <section
+                            v-for="(section, index) in equipment.sections"
+                            :key="`${section.title}-${index}`"
+                            class="rounded-2xl border border-brand-ink/10 bg-white px-4 py-4"
+                        >
+                            <h2 class="font-display text-xl font-semibold text-brand-deep">{{ section.title }}</h2>
+                            <div v-if="section.paragraphs?.length" class="mt-3 space-y-2 text-sm leading-relaxed text-brand-muted">
+                                <p v-for="paragraph in section.paragraphs" :key="paragraph">{{ paragraph }}</p>
+                            </div>
+                            <ul v-if="section.bullets?.length" class="mt-3 space-y-2">
+                                <li
+                                    v-for="bullet in section.bullets"
+                                    :key="bullet"
+                                    class="rounded-xl border border-brand-ink/10 bg-brand-soft px-3 py-2 text-sm text-brand-muted"
+                                >
+                                    {{ bullet }}
+                                </li>
+                            </ul>
+                        </section>
+                    </div>
+
                     <div class="mt-6 flex flex-wrap gap-3">
                         <Link :href="urls.contact" class="btn-primary">Request Pricing</Link>
                         <Link :href="urls.services" class="btn-secondary">See Service Options</Link>

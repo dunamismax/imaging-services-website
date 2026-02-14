@@ -17,6 +17,7 @@ const props = defineProps({
 
 const page = usePage();
 const urls = computed(() => page.props.site?.urls || {});
+const sections = computed(() => (Array.isArray(props.post.sections) ? props.post.sections : []));
 </script>
 
 <template>
@@ -33,6 +34,28 @@ const urls = computed(() => page.props.site?.urls || {});
 
                 <div class="mt-6 space-y-4 text-base leading-relaxed text-brand-muted">
                     <p v-for="paragraph in post.content" :key="paragraph">{{ paragraph }}</p>
+                </div>
+
+                <div v-if="sections.length" class="mt-8 space-y-8">
+                    <section
+                        v-for="(section, index) in sections"
+                        :key="`${section.title}-${index}`"
+                        class="rounded-2xl border border-brand-ink/10 bg-white px-4 py-5 md:px-5"
+                    >
+                        <h2 class="font-display text-2xl font-semibold text-brand-deep">{{ section.title }}</h2>
+                        <div v-if="section.paragraphs?.length" class="mt-3 space-y-3 text-base leading-relaxed text-brand-muted">
+                            <p v-for="paragraph in section.paragraphs" :key="paragraph">{{ paragraph }}</p>
+                        </div>
+                        <ul v-if="section.bullets?.length" class="mt-4 space-y-2">
+                            <li
+                                v-for="bullet in section.bullets"
+                                :key="bullet"
+                                class="rounded-xl border border-brand-ink/10 bg-brand-soft px-3 py-2 text-sm text-brand-muted"
+                            >
+                                {{ bullet }}
+                            </li>
+                        </ul>
+                    </section>
                 </div>
 
                 <div class="mt-8 flex flex-wrap gap-3">

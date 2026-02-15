@@ -1,80 +1,109 @@
 <?php
 
+use App\Livewire\Forms\ContactSalesForm;
+use App\Livewire\Forms\SelectableRequestForm;
+use Livewire\Livewire;
+
 it('validates contact sales form required fields', function () {
-    $this->postJson(route('forms.contact-sales'), [])
-        ->assertStatus(422)
-        ->assertJsonValidationErrors(['name', 'phone', 'email']);
+    Livewire::test(ContactSalesForm::class)
+        ->call('submit')
+        ->assertHasErrors(['name', 'phone', 'email']);
 });
 
 it('submits contact sales form', function () {
-    $this->postJson(route('forms.contact-sales'), [
-        'name' => 'Jordan Smith',
-        'phone' => '(555) 555-1234',
-        'email' => 'jordan@example.com',
-        'company' => 'Springfield Clinic',
-        'notes' => 'Need options for a digital upgrade this quarter.',
-    ])
-        ->assertOk()
-        ->assertJsonPath('message', 'We received your message and a member of our sales team will reach out within one business day.');
+    Livewire::test(ContactSalesForm::class)
+        ->set('name', 'Jordan Smith')
+        ->set('phone', '(555) 555-1234')
+        ->set('email', 'jordan@example.com')
+        ->set('company', 'Springfield Clinic')
+        ->set('notes', 'Need options for a digital upgrade this quarter.')
+        ->call('submit')
+        ->assertHasNoErrors()
+        ->assertSet('submitted', true)
+        ->assertSet('name', '')
+        ->assertSet('phone', '')
+        ->assertSet('email', '')
+        ->assertSet('company', '')
+        ->assertSet('notes', '');
 });
 
 it('requires at least one service request option', function () {
-    $this->postJson(route('forms.service-request'), [
-        'name' => 'Taylor Lee',
-        'phone' => '(555) 222-0000',
-        'email' => 'taylor@example.com',
-        'company' => 'Summit Imaging',
+    /** @var array<int,string> $options */
+    $options = config('site_content.services.service_options', []);
+
+    Livewire::test(SelectableRequestForm::class, [
+        'options' => $options,
+        'formKey' => 'service-request',
     ])
-        ->assertStatus(422)
-        ->assertJsonValidationErrors(['serviceOptions']);
+        ->set('name', 'Taylor Lee')
+        ->set('phone', '(555) 222-0000')
+        ->set('email', 'taylor@example.com')
+        ->set('company', 'Summit Imaging')
+        ->call('submit')
+        ->assertHasErrors(['selectedOptions']);
 });
 
 it('submits service request form', function () {
-    $options = config('site_content.services.service_options');
+    /** @var array<int,string> $options */
+    $options = config('site_content.services.service_options', []);
 
-    $this->postJson(route('forms.service-request'), [
-        'name' => 'Taylor Lee',
-        'phone' => '(555) 222-0000',
-        'email' => 'taylor@example.com',
-        'company' => 'Summit Imaging',
-        'serviceOptions' => [$options[0]],
-        'notes' => 'Need maintenance planning and remote support.',
+    expect($options)->not->toBeEmpty();
+
+    Livewire::test(SelectableRequestForm::class, [
+        'options' => $options,
+        'formKey' => 'service-request',
     ])
-        ->assertOk()
-        ->assertJsonPath('message', 'We received your message and a member of our services team will reach out within one business day.');
+        ->set('name', 'Taylor Lee')
+        ->set('phone', '(555) 222-0000')
+        ->set('email', 'taylor@example.com')
+        ->set('company', 'Summit Imaging')
+        ->set('selectedOptions', [$options[0]])
+        ->set('notes', 'Need maintenance planning and remote support.')
+        ->call('submit')
+        ->assertHasNoErrors()
+        ->assertSet('submitted', true)
+        ->assertSet('selectedOptions', []);
 });
 
 it('submits training request form', function () {
-    $options = config('site_content.services.training_options');
+    /** @var array<int,string> $options */
+    $options = config('site_content.services.training_options', []);
 
-    $this->postJson(route('forms.training-request'), [
-        'name' => 'Avery Morgan',
-        'phone' => '(555) 100-9898',
-        'email' => 'avery@example.com',
-        'company' => 'Northside Ortho',
-        'trainingOptions' => [$options[0], $options[1]],
-        'notes' => 'Please include software workflow training.',
+    expect(count($options))->toBeGreaterThanOrEqual(2);
+
+    Livewire::test(SelectableRequestForm::class, [
+        'options' => $options,
+        'formKey' => 'training-request',
     ])
-        ->assertOk()
-        ->assertJsonPath('message', 'We received your message and a member of our training team will reach out within one business day.');
+        ->set('name', 'Avery Morgan')
+        ->set('phone', '(555) 100-9898')
+        ->set('email', 'avery@example.com')
+        ->set('company', 'Northside Ortho')
+        ->set('selectedOptions', [$options[0], $options[1]])
+        ->set('notes', 'Please include software workflow training.')
+        ->call('submit')
+        ->assertHasNoErrors()
+        ->assertSet('submitted', true)
+        ->assertSet('selectedOptions', []);
 });
 
 it('rate limits rapid repeat form submissions', function () {
-    $payload = [
-        'name' => 'Jordan Smith',
-        'phone' => '(555) 555-1234',
-        'email' => 'jordan@example.com',
-        'company' => 'Springfield Clinic',
-        'notes' => 'Need options for a digital upgrade this quarter.',
-    ];
+    $payload = fn () => Livewire::test(ContactSalesForm::class)
+        ->set('name', 'Jordan Smith')
+        ->set('phone', '(555) 555-1234')
+        ->set('email', 'jordan@example.com')
+        ->set('company', 'Springfield Clinic')
+        ->set('notes', 'Need options for a digital upgrade this quarter.');
 
     foreach (range(1, 5) as $_) {
-        $this->postJson(route('forms.contact-sales'), $payload)->assertOk();
+        $payload()
+            ->call('submit')
+            ->assertHasNoErrors('form')
+            ->assertSet('submitted', true);
     }
 
-    $response = $this->postJson(route('forms.contact-sales'), $payload)
-        ->assertStatus(429)
-        ->assertJsonValidationErrors(['form']);
-
-    expect($response->json('errors.form.0'))->toContain('Please wait');
+    $payload()
+        ->call('submit')
+        ->assertHasErrors('form')
+        ->assertSee('Please wait');
 });

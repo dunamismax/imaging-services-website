@@ -7,15 +7,15 @@ Use this file as a starting point for new Laravel projects. Customize the `Proje
 
 # Project Profile (Edit First)
 
-- App name: `<your-app-name>`
-- Laravel version: `<e.g. 12.x>`
-- PHP version: `<e.g. 8.3+>`
-- Primary UI stack: `<Blade | Livewire | Inertia | API-only>`
-- CSS stack: `<Tailwind | Bootstrap | Custom>`
+- App name: `imaging-services-website`
+- Laravel version: `12.x`
+- PHP version: `8.4+`
+- Primary UI stack: `Livewire`
+- CSS stack: `Tailwind`
 - Test framework: `PHPUnit`
-- Database engine: `<MySQL | PostgreSQL | SQLite>`
-- Queue driver: `<redis | database | sqs>`
-- Cache driver: `<redis | database | file>`
+- Database engine: `SQLite`
+- Queue driver: `database`
+- Cache driver: `database`
 
 === core principles ===
 
@@ -204,9 +204,9 @@ The Laravel Boost guidelines are specifically curated by Laravel maintainers for
 This application is a Laravel application and its main Laravel ecosystems package & versions are below. You are an expert with them all. Ensure you abide by these specific packages & versions.
 
 - php - 8.4.1
-- inertiajs/inertia-laravel (INERTIA) - v2
 - laravel/framework (LARAVEL) - v12
 - laravel/prompts (PROMPTS) - v0
+- livewire/livewire (LIVEWIRE) - v4
 - laravel/boost (BOOST) - v2
 - laravel/mcp (MCP) - v0
 - laravel/pail (PAIL) - v1
@@ -215,7 +215,6 @@ This application is a Laravel application and its main Laravel ecosystems packag
 - pestphp/pest (PEST) - v4
 - phpunit/phpunit (PHPUNIT) - v12
 - tailwindcss (TAILWINDCSS) - v4
-- vue (VUE) - v3
 
 ## Skills Activation
 
@@ -335,22 +334,6 @@ protected function isAccessible(User $user, ?string $path = null): bool
 - Every change must be programmatically tested. Write a new test or update an existing test, then run the affected tests to make sure they pass.
 - Run the minimum number of tests needed to ensure code quality and speed. Use `php artisan test --compact` with a specific filename or filter.
 
-=== inertia-laravel/core rules ===
-
-# Inertia
-
-- Inertia creates fully client-side rendered SPAs without modern SPA complexity, leveraging existing server-side patterns.
-- Components live in `resources/js/Pages` (unless specified in `vite.config.js`). Use `Inertia::render()` for server-side routing instead of Blade views.
-- ALWAYS use `search-docs` tool for version-specific Inertia documentation and updated code examples.
-
-=== inertia-laravel/v2 rules ===
-
-# Inertia v2
-
-- Use all Inertia features from v1 and v2. Check the documentation before making changes to ensure the correct approach.
-- New features: deferred props, infinite scrolling (merging props + `WhenVisible`), lazy loading on scroll, polling, prefetching.
-- When using deferred props, add an empty state with a pulsing or animated skeleton.
-
 === laravel/core rules ===
 
 # Do Things the Laravel Way
@@ -430,6 +413,15 @@ protected function isAccessible(User $user, ?string $path = null): bool
 ### Models
 
 - Casts can and likely should be set in a `casts()` method on a model rather than the `$casts` property. Follow existing conventions from other models.
+
+=== livewire/core rules ===
+
+# Livewire
+
+- Livewire allows you to build dynamic, reactive interfaces using only PHP — no JavaScript required.
+- Instead of writing frontend code in JavaScript frameworks, you use Alpine.js to build the UI when client-side interactions are required.
+- State lives on the server; the UI reflects it. Validate and authorize in actions (they're like HTTP requests).
+- IMPORTANT: Follow Livewire 4 patterns for all reactive UI tasks and validate/authorize in component actions.
 
 === boost/core rules ===
 

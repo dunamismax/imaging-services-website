@@ -1,6 +1,6 @@
 # WordPress Content Download Instructions (Imaging Services USA)
 
-This runbook is for a **new AI agent** to fully sync content from the live WordPress site into this Laravel + Inertia/Vue clone.
+This runbook is for a **new AI agent** to fully sync content from the live WordPress site into this Laravel + Livewire clone.
 
 Target site: `https://imagingservicesusa.com/`  
 Repository root: `/home/sawyer/github/imaging-services-website`
@@ -26,24 +26,10 @@ Primary content source:
 
 Rendering/mapping:
 
-- `app/Http/Controllers/SitePageController.php`
+- `app/Support/SiteContent.php`
+- `app/Livewire/Pages/`
 - `routes/web.php`
-- `app/Http/Middleware/HandleInertiaRequests.php`
-
-Vue pages with copy/labels that may also require edits:
-
-- `resources/js/Pages/Home.vue`
-- `resources/js/Pages/About.vue`
-- `resources/js/Pages/Equipment.vue`
-- `resources/js/Pages/EquipmentDetail.vue`
-- `resources/js/Pages/Services.vue`
-- `resources/js/Pages/Accessories.vue`
-- `resources/js/Pages/Contact.vue`
-- `resources/js/Pages/Payments.vue`
-- `resources/js/Pages/Privacy.vue`
-- `resources/js/Pages/Media.vue`
-- `resources/js/Pages/BlogPost.vue`
-- `resources/js/Pages/MarketingPage.vue`
+- `resources/views/livewire/pages/`
 
 ---
 
@@ -237,7 +223,7 @@ For this next pass, do **longform parity**, not short summaries:
 
 - For each blog post in `blog_posts`, copy major section headings and substantive paragraphs from WordPress post content.
 - For each equipment detail entry in `equipment_details`, include fuller descriptive bullets and key product sections from WordPress equipment page body.
-- Keep text readable in current Vue layout; if needed, adjust `BlogPost.vue` and `EquipmentDetail.vue` to support longer content blocks cleanly.
+- Keep text readable in current Livewire layout; if needed, adjust `resources/views/livewire/pages/blog-post-page.blade.php` and `resources/views/livewire/pages/equipment-detail-page.blade.php` to support longer content blocks cleanly.
 
 Current post slugs to cover:
 

@@ -96,8 +96,6 @@ Wake → Explore → Plan → Code → Verify → Report
 
 - Use Bun for install/add/run/test and task orchestration.
 - Use `bunx` for one-off tooling (`drizzle-kit`, `tsc`, `@biomejs/biome`).
-- Project task entrypoint is `scripts/cli.ts`.
-- All operational scripts are TypeScript under `scripts/`.
 - Use SSH remotes only for GitHub/Codeberg.
 - For React Router framework apps, default to SPA mode via `react-router.config.ts` with `ssr: false` unless Stephen explicitly asks for SSR.
 
@@ -108,17 +106,16 @@ Wake → Explore → Plan → Code → Verify → Report
 bun install
 bun run lint
 bun run typecheck
-bun run scry:doctor
+bun run build
 
-# operations
-bun run scry:bootstrap
-bun run scry:setup:workstation
-bun run scry:setup:ssh_backup
-bun run scry:setup:ssh_restore
-bun run scry:projects:list
-bun run scry:projects:doctor
-bun run scry:projects:install
-bun run scry:projects:verify
+# local runtime
+bun run dev
+bun run dev:server
+
+# database
+bun run db:generate
+bun run db:migrate
+bun run db:studio
 ```
 
 ---
@@ -159,7 +156,9 @@ A task is done when all are true:
 
 | Path | Purpose |
 |---|---|
-| `scripts/` | Bun-first TypeScript operational commands. |
+| `app/` | React Router framework-mode app routes and UI components. |
+| `server/` | Bun API and Postgres/Drizzle integration for form submissions. |
+| `drizzle/` | SQL migrations and migration journal. |
 | `SOUL.md` | Identity source of truth for scry. |
 | `AGENTS.md` | Operational source of truth for scry. |
 
